@@ -267,6 +267,22 @@ def shell_format(tmpl, *args, **kwargs):
     return tmpl.format(*args, **kwargs)
 
 
+from sys import stderr
+from subprocess import Popen
+from subprocess import PIPE
+def _cmd(*argv):
+    """
+    Another take on a naive helper for running one-off system commands
+    """
+    print(*argv, file=stderr)
+    p = Popen(argv, stdout=PIPE, stderr=PIPE, text=True)
+    output = p.communicate()
+    if p.returncode != 0:
+        raise RuntimeError(f'{' '.join(argv)}: {p.returncode}')
+    return *output,
+
+
+
 
 # async
 

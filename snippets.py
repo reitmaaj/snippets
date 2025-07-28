@@ -111,7 +111,10 @@ _MONOTONIC0 = monotonic()
 
 from datetime import datetime
 from datetime import timezone
-_TIMESTAMP0 = datetime.now(tz=timezone.utc).timestamp()
+def _nowz():
+    return datetime.now(tz=timezone.utc).timestamp()
+
+_TIMESTAMP0 = _nowz()
 
 from time import monotonic
 def _timestamp():

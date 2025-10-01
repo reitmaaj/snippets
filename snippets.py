@@ -285,6 +285,16 @@ def _cmd(*argv):
     return *output,
 
 
+# argv
+
+def parse_named(argv):
+    named = {}
+    for arg in argv:
+        if arg.startswith('--'):
+            key, value = (*arg.split('=', 1), True)[0:2]
+            named[key] = value
+    return named
+
 
 
 # async

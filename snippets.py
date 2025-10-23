@@ -198,6 +198,26 @@ from sys import stdin
 for val in map(loads, stdin):
     ...
 
+
+
+from json import loads, dumps
+def _sanitize_key(key):
+    return (*loads(dumps({key: None})).keys(),)[0]
+
+def _sanitize_value(value):
+    return loads(dumps(value))
+
+class JSONDict(collections.UserDict):
+    def __setitem__(self, key, value):
+        super().__setitem__(_sanitize_key(key), _sanitize_value(value))
+    def __getitem__(self, key):
+        return super().__getitem__(_sanitize_key(key))
+    def __delitem__(self, key):
+        super().__delitem__(_sanitize_key(key))
+    def __contains__(self, key):
+        return super().__contains__(_sanitize_key(key))
+
+
 # text
 
 from unicodedata import normalize

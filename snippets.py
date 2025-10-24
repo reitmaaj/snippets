@@ -35,19 +35,6 @@ def pairmap(fn, itr):
     return map(fn, zip(a, b))
 
 from collections import defaultdict
-def count_unique(itr):
-    """
-    Count occurrences of hashable items.
-    >>> assert count_unique([1, 2, 1, 3]) == {1: 2, 2: 1, 3: 1}
-    """
-    counts = defaultdict(lambda: 0)
-    for val in itr:
-        counts[val] += 1
-    return counts
-
-from collections import Counter
-
-from collections import defaultdict
 from itertools import count
 def numbering(**kwargs):
     """
@@ -67,15 +54,6 @@ def argsort(itr):
     >>> assert argsort([3, 1, 2]) == [1, 2, 0]
     """
     return [*map(itemgetter(0), sorted(enumerate(itr), key=itemgetter(1)))]
-
-from itertools import starmap
-def zip_with(fn, *itrs):
-    """
-    Zip and apply a function.
-    >>> assert [*zip_with(lambda a, b: a + b, [1, 2, 3], [4, 5, 6])] == [5, 7, 9]
-    """
-    return starmap(fn, zip(*itrs))
-
 
 
 # dict

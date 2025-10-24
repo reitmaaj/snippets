@@ -284,41 +284,23 @@ def _levenshtein(a, b):
 
 # subprocesses
 
-from subprocess import run
-from subprocess import Popen
-from subprocess import PIPE
-def command(*argv, input=None, cwd=None, env=None, timeout=None):
-    return Popen(argv,
-        cwd=cwd,
-        env=env,
-        text=True,
-        stdin=PIPE,
-        stdout=PIPE,
-    ).communicate(input=input, timeout=timeout)
-
-def shell(cmdline):
-    return ('/bin/sh', '-c', cmdline)
-
-from shlex import quote
-def shell_format(tmpl, *args, **kwargs):
-    args = [quote(arg) for arg in args]
-    kwargs = {kw: quote(arg) for kw, arg in kwargs.items()}
-    return tmpl.format(*args, **kwargs)
-
-
-from sys import stderr
 from subprocess import Popen
 from subprocess import PIPE
 def cmd(*argv):
-    """
-    Another take on a naive helper for running one-off system commands
-    """
     p = Popen(argv, stdout=PIPE, stderr=PIPE, text=True)
     output = p.communicate()
     if p.returncode != 0:
         raise RuntimeError(f'{' '.join(argv)}: {p.returncode}')
     return *output,
 
+from shlex import quote
+def sh_format(tmpl, *args, **kwargs):
+    args = [quote(arg) for arg in args]
+    kwargs = {kw: quote(arg) for kw, arg in kwargs.items()}
+    return tmpl.format(*args, **kwargs)
+
+def sh(tmpl, *args, **kwargs):
+    return cmd('/bin/sh', '-c', sh_format(tmpl, *args, **kwargs))
 
 # argv
 

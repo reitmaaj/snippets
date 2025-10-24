@@ -309,11 +309,10 @@ def shell_format(tmpl, *args, **kwargs):
 from sys import stderr
 from subprocess import Popen
 from subprocess import PIPE
-def _cmd(*argv):
+def cmd(*argv):
     """
     Another take on a naive helper for running one-off system commands
     """
-    print(*argv, file=stderr)
     p = Popen(argv, stdout=PIPE, stderr=PIPE, text=True)
     output = p.communicate()
     if p.returncode != 0:

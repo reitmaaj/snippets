@@ -259,6 +259,17 @@ def _levenshtein(a, b):
         previous = current
     return previous[n]
 
+# graph
+
+import graphlib
+def topological_sort(graph):
+    """
+    >>> g = {'d': {'b', 'c'}, 'c: {'b', 'a'}, 'b': {'a',},}
+    >>> (*topological_sort(g),)
+    ('a', 'b', 'c', 'd')
+    """
+    return graphlib.TopologicalSorter(graph).static_order()
+
 
 # subprocesses
 

@@ -1,6 +1,6 @@
 """
 >>> from sys import version_info
->>> assert version_info >= (3, 7, 0)
+>>> assert version_info >= (3, 9, 0)
 """
 
 

@@ -317,3 +317,30 @@ def awaitable(fn):
     return run 
 
 
+# configuration
+
+import os
+import sys
+import json
+import types
+import pathlib
+
+
+def _object_hook(value):
+    return types.SimpleNamespace(**value)
+
+def _resolve_conf_path():
+    for conf_path in (os.getenv('CONF_PATH'), 'conf.json',):
+        if not conf_path is None:
+            return pathlib.Path(conf_path)
+
+default_conf_path   = pathlib.Path(__file__).parent / 'default.conf.json'
+conf_path           = pathlib.Path(_resolve_conf_path())
+with (default_conf_path.open() as df, conf_path.open() as cf):
+    default_conf    = json.load(df, object_hook=_object_hook)
+    conf            = json.load(cf, object_hook=_object_hook)
+                    
+sys.modules[__name__] = types.SimpleNamespace(**{**default_conf.__dict__,
+                                                 **conf.__dict__,})
+
+
